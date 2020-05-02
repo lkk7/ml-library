@@ -4,7 +4,6 @@ The classes should be linearly separable (if they aren't, adding polynomial or i
 """
 import numpy as np
 
-from utils.dataset_utils import load_bin_class_data
 from utils.math_functions import sigmoid
 
 
@@ -14,10 +13,10 @@ class LogisticRegression:
     Parameters
     ----------
     learning_rate : float, default = 0.2
-        The learning rate for gradient descent or SGD (if it is used).
+        The learning rate for gradient descent or SGD.
     method : str, default = 'gradient'
         Method of fitting the model.
-        'gradient' for gradient descent, 'sgd' for stochastic gradient descent, 'neq' for normal equation.
+        'gradient' for gradient descent, 'sgd' for stochastic gradient descent.
     """
     def __init__(self, learning_rate=0.2, method='gradient'):
         self.learning_rate = learning_rate
@@ -42,7 +41,7 @@ class LogisticRegression:
         self.intercept = 0
         if self.method == 'gradient':
             for i in range(n_iter):
-                dz = (sigmoid(np.dot(x, self.coef) + self.intercept) - y)
+                dz = sigmoid(np.dot(x, self.coef) + self.intercept) - y
                 dw = np.dot(dz, x) / m
                 db = np.sum(dz) / m
                 self.coef -= self.learning_rate * dw
@@ -51,15 +50,12 @@ class LogisticRegression:
             for i in range(n_iter):
                 index = np.random.choice(x.shape[0], 1)
                 x_i, y_i = x[index], y[index]
-                db = sigmoid(np.dot(x_i, self.coef) + self.intercept - y_i)
+                db = sigmoid(np.dot(x_i, self.coef) + self.intercept) - y_i
                 dw = db * x_i
                 self.coef -= self.learning_rate * dw.reshape((3,))
                 self.intercept -= self.learning_rate * db
-                print(dw)
-        elif self.method == 'neq':
-            pass
         else:
-            raise ValueError("Wrong 'method' argument. Use 'gradient', 'sgd' or 'neq'.")
+            raise ValueError("Wrong 'method' argument. Use 'gradient', 'sgd' or 'ls'.")
 
     def predict_proba(self, x):
         """Predict probabilities of class '1' for given input.
@@ -80,11 +76,3 @@ class LogisticRegression:
             Input array.
         """
         return np.round(self.predict_proba(x))
-
-
-xs, ys = load_bin_class_data()
-model = LogisticRegression(method='sgd')
-model.fit(xs, ys)
-
-print(np.sum(model.predict(xs) == ys))
-print(xs.shape[0])
