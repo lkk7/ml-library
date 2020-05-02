@@ -4,8 +4,6 @@ If this relationship is not linear, adding polynomial or interaction terms can b
 """
 import numpy as np
 
-from utils.dataset_utils import load_regression_data
-
 
 class LinearRegression:
     """The linear regression model.
@@ -64,6 +62,7 @@ class LinearRegression:
         return np.dot(np.column_stack((np.ones((x.shape[0], 1)), x)), self.coef)
 
 
+from utils.dataset_utils import load_regression_data
 xs, ys = load_regression_data()
 model = LinearRegression(method='neq', reg=None)
 model.fit(xs, ys)

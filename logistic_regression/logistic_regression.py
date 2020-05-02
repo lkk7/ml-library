@@ -17,12 +17,15 @@ class LogisticRegression:
     method : str, default = 'gradient'
         Method of fitting the model.
         'gradient' for gradient descent, 'sgd' for stochastic gradient descent.
+    alpha : float, default = 0
+        alpha parameter controlling the 'strength' of regularization.
     """
-    def __init__(self, learning_rate=0.2, method='gradient'):
+    def __init__(self, learning_rate=0.2, method='gradient', alpha=0):
         self.learning_rate = learning_rate
         self.coef = None
         self.intercept = None
         self.method = method
+        self.alpha = alpha
 
     def fit(self, x, y, n_iter=1000):
         """Use given training data to fit the model.
@@ -42,7 +45,7 @@ class LogisticRegression:
         if self.method == 'gradient':
             for i in range(n_iter):
                 dz = sigmoid(np.dot(x, self.coef) + self.intercept) - y
-                dw = np.dot(dz, x) / m
+                dw = np.dot(dz, x) / m + self.coef * self.alpha / m
                 db = np.sum(dz) / m
                 self.coef -= self.learning_rate * dw
                 self.intercept -= self.learning_rate * db
@@ -51,7 +54,7 @@ class LogisticRegression:
                 index = np.random.choice(x.shape[0], 1)
                 x_i, y_i = x[index], y[index]
                 db = sigmoid(np.dot(x_i, self.coef) + self.intercept) - y_i
-                dw = db * x_i
+                dw = db * x_i + self.coef * self.alpha / m
                 self.coef -= self.learning_rate * dw.reshape((3,))
                 self.intercept -= self.learning_rate * db
         else:
@@ -76,3 +79,11 @@ class LogisticRegression:
             Input array.
         """
         return np.round(self.predict_proba(x))
+
+
+from utils.dataset_utils import load_bin_class_data
+xs, ys = load_bin_class_data()
+model = LogisticRegression(method='gradient', )
+model.fit(xs, ys, n_iter=1000)
+print(model.coef)
+print(np.sum(model.predict(xs) == ys))
