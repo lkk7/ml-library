@@ -1,12 +1,10 @@
-"""Linear regression module.
-It is a simple regression model that assumes linearity of the true relationship between x and y.
-If this relationship is not linear, adding polynomial or interaction terms can be considered.
-"""
 import numpy as np
+
+from utils.math_functions import reg_grad_dict
 
 
 class LinearRegression:
-    """The linear regression model.
+    """The linear regression model. Uses MSE cost function.
 
     Parameters
     ----------
@@ -50,10 +48,7 @@ class LinearRegression:
         m, n = x.shape[0], x.shape[1] + 1
         x_mat = np.column_stack((np.ones((m, 1)), x))   # Insert bias terms in the first column
         self.coef = np.zeros(n)
-        regularization_term = {'l2': (lambda a, w, l1: w * a),
-                               'l1': (lambda a, w, l1: np.sign(w) * a),
-                               'elastic': lambda a, w, l1: np.sign(w) * l1 * a + w * (1 - l1) * a,
-                               None: (lambda a, w, l1: w * 0)}[self.reg]
+        regularization_term = reg_grad_dict[self.reg]
         if self.method == 'gradient':
             for i in range(n_iter):
                 prediction = np.dot(x_mat, self.coef)

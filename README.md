@@ -15,5 +15,6 @@ Generally inspired by [scikit-learn](https://github.com/scikit-learn/scikit-lear
   * Logistic Regression
     * Solving methods: Gradient descent, SGD
     * Regularization methods: L1, L2, elastic net
+  * Perceptron
   * ...
 - ...

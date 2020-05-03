@@ -1,14 +1,10 @@
-"""Logistic regression module.
-It is a binary classification algorithm that outputs the probability that the given input belongs to a class.
-The classes should be linearly separable (if they aren't, adding polynomial or interaction terms can be considered).
-"""
 import numpy as np
 
-from utils.math_functions import sigmoid
+from utils.math_functions import sigmoid, reg_grad_dict
 
 
 class LogisticRegression:
-    """The logistic regression binary classifier.
+    """The logistic regression binary classifier. Uses binary cross-entropy loss.
 
     Parameters
     ----------
@@ -52,10 +48,7 @@ class LogisticRegression:
         m, n = x.shape[0], x.shape[1]
         self.coef = np.zeros(n)
         self.intercept = 0
-        regularization_term = {'l2': (lambda a, w, l1: w * a),
-                               'l1': (lambda a, w, l1: np.sign(w) * a),
-                               'elastic': lambda a, w, l1: np.sign(w) * l1 * a + w * (1 - l1) * a,
-                               None: (lambda a, w, l1: 0)}[self.reg]
+        regularization_term = reg_grad_dict[self.reg]
         if self.method == 'gradient':
             for i in range(n_iter):
                 dz = sigmoid(np.dot(x, self.coef) + self.intercept) - y
