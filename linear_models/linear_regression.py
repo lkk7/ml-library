@@ -16,14 +16,24 @@ class LinearRegression:
         Method of fitting the model.
         'gradient' for gradient descent, 'sgd' for stochastic gradient descent, 'neq' for normal equation.
     reg : str, default = None
-        Method of regularization.
-        'l1' or 'l2' for L1 or L2 regularization,
-        elastic' for using elastic net method, None for no regularization.
+        Regularization method.
+        For L1 or L2, use 'l1' or 'l2' respectively.
+        For elastic net method, use 'elastic'.
+        None for no regularization.
+    alpha : float, default = 0
+        Alpha parameter controlling the 'strength' of regularization. Not for normal equation method.
+    l1_ratio : float, default = 0
+        Defines the ratio of L1 regularization. Only for elastic regularization option.
+        The penalty added to cost is l1_ratio * L1 + 0.5 * (1 - l1_ratio) * L2.
     """
-    def __init__(self, learning_rate=0.2, method='gradient', reg=None):
+    def __init__(self, learning_rate=0.2, method='gradient', reg=None, alpha=0, l1_ratio=0):
         self.learning_rate = learning_rate
         self.coef = None
         self.method = method
+        self.method = method
+        self.reg = reg
+        self.alpha = alpha
+        self.l1_ratio = np.clip(l1_ratio, 0, 1)
 
     def fit(self, x, y, n_iter=1000):
         """Use given training data to fit the model.
@@ -40,12 +50,26 @@ class LinearRegression:
         m, n = x.shape[0], x.shape[1] + 1
         x_mat = np.column_stack((np.ones((m, 1)), x))   # Insert bias terms in the first column
         self.coef = np.zeros(n)
+        regularization_term = {'l2': (lambda a, w, l1: w * a),
+                               'l1': (lambda a, w, l1: np.sign(w) * a),
+                               'elastic': lambda a, w, l1: np.sign(w) * l1 * a + w * (1 - l1) * a,
+                               None: (lambda a, w, l1: w * 0)}[self.reg]
         if self.method == 'gradient':
             for i in range(n_iter):
-                pass
+                prediction = np.dot(x_mat, self.coef)
+                reg = regularization_term(self.alpha, self.coef, self.l1_ratio)
+                reg[0] = 0
+                dw = (np.dot((prediction - y), x_mat) + reg) / m
+                self.coef -= self.learning_rate * dw
         elif self.method == 'sgd':
             for i in range(n_iter):
-                pass
+                index = np.random.choice(x_mat.shape[0], 1)
+                x_i, y_i = x_mat[index], y[index]
+                prediction = np.dot(x_i, self.coef)
+                reg = regularization_term(self.alpha, self.coef, self.l1_ratio)
+                reg[0] = 0
+                dw = np.dot((prediction - y_i), x_i) + reg / m
+                self.coef -= self.learning_rate * dw
         elif self.method == 'neq':
             self.coef = np.linalg.pinv(x_mat.T.dot(x_mat)).dot(x_mat.T).dot(y)
         else:
@@ -60,11 +84,3 @@ class LinearRegression:
             Input array.
         """
         return np.dot(np.column_stack((np.ones((x.shape[0], 1)), x)), self.coef)
-
-
-from utils.dataset_utils import load_regression_data
-xs, ys = load_regression_data()
-model = LinearRegression(method='neq', reg=None)
-model.fit(xs, ys)
-print(model.predict(xs[10000:10010]))
-print(ys[10000:10010])
