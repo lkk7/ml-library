@@ -16,5 +16,13 @@ Generally inspired by [scikit-learn](https://github.com/scikit-learn/scikit-lear
     * Solving methods: Gradient descent, SGD
     * Regularization methods: L1, L2, elastic net
   * Perceptron
+  * K-nearest neighbors
   * ...
-- ...
+- Other
+  * Metrics
+    * Euclidean, Manhattan distance
+    * ...
+
+## Notes
+As the library is inspired by [scikit-learn](https://github.com/scikit-learn/scikit-learn), it could be expected to be designed in a tiny bit more object-oriented way.  
+However, the author's main focus is to develop readable and usable algorithms one by one in order to learn their foundations. Besides, every model has its `fit()` and `predict()` as expected from a [scikit-learn](https://github.com/scikit-learn/scikit-learn) clone.

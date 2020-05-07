@@ -41,7 +41,7 @@ class LinearRegression:
         x : array-like
             Array of training examples.
         y : array-like
-            Array of binary training labels (1 or 0 only).
+            Array of training y values.
         n_iter : int, default = 1000
             Number of iterations.
         """

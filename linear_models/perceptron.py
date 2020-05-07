@@ -3,7 +3,7 @@ from linear_models.logistic_regression import LogisticRegression
 
 
 class Perceptron(LogisticRegression):
-    """A simple perceptron. Uses binary cross-entropy loss for updating weights.
+    """A simple (binary classification) perceptron. Uses binary cross-entropy loss for updating weights.
     >>NOTE: it inherits most of the code from logistic regression for simplicity.<<
 
     Parameters
