@@ -3,9 +3,9 @@ import numpy as np
 
 def distance(x_1, x_2, method='euclidean'):
     """Pairwise distance metric between two vectors.
-    The vectors are assumed to be columns.
+    The vectors are assumed to be rows.
 
-    Parameters
+    Parametersz
     ----------
     x_1 : array-like
         One of two vectors to compute distance between.
