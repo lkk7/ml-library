@@ -18,6 +18,9 @@ Generally inspired by [scikit-learn](https://github.com/scikit-learn/scikit-lear
   * Perceptron (...)
   * K-nearest neighbors
   * ...
+- Unsupervised methods
+  * K-means clustering
+  * ...
 - Other
   * Metrics
     * Euclidean, Manhattan distance
