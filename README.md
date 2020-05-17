@@ -5,7 +5,7 @@ Not intended to achieve outstanding performance/efficiency.
 Generally inspired by [scikit-learn](https://github.com/scikit-learn/scikit-learn).
 
 ## Included
-"..." means "to do more / to update"
+"..." means "to do more", "(...)" means "to update"
 - Regression
   * Linear regression:
     * Solving methods: Gradient descent, SGD, normal equation
@@ -17,6 +17,7 @@ Generally inspired by [scikit-learn](https://github.com/scikit-learn/scikit-lear
     * Regularization methods: L1, L2, elastic net
   * Perceptron (...)
   * K-nearest neighbors
+  * Naive Bayes classifier (...)
   * ...
 - Unsupervised methods
   * K-means clustering

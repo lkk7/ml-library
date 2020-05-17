@@ -6,6 +6,10 @@ def sigmoid(x):
     return 1 / (1 + np.exp(-x))
 
 
+def gaussian(x, mean, var):
+    return np.exp(-np.power(x - mean, 2) / (2 * np.power(var, 2))) / (np.sqrt(2 * np.pi) * var)
+
+
 # Helper dict containing gradient for each regularization in form of lambda functions.
 # a – alpha, w – weights, l1 – l1_ratio
 reg_grad_dict = {'l2': (lambda a, w, l1: w * a),
