@@ -26,7 +26,9 @@ Generally inspired by [scikit-learn](https://github.com/scikit-learn/scikit-lear
   * Metrics
     * Euclidean, Manhattan distance
     * ...
+  * Model selection
+    * K-fold cross-validation
 
 ## Notes
 As the library is inspired by [scikit-learn](https://github.com/scikit-learn/scikit-learn), it could be expected to be designed in a tiny bit more object-oriented way.  
-However, the author's main focus is to develop readable and usable algorithms one by one in order to learn their foundations. Besides, every model has its `fit()` and `predict()` as expected from a [scikit-learn](https://github.com/scikit-learn/scikit-learn) clone.
+However, the author's main focus is to develop readable and usable algorithms one by one in order to learn their foundations. Besides, every model has its `fit()` and `predict()` (if possible) as expected from a [scikit-learn](https://github.com/scikit-learn/scikit-learn) clone.

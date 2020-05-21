@@ -39,4 +39,4 @@ class GaussianNB:
         for i in range(x.shape[1]):
             for j in range(len(self.classes)):
                 probs[:, j] += np.log(gaussian(x[:, i], self.coef[j][i][0], self.coef[j][i][1]) + 1e-300)
-        return np.argmax(probs, axis=1)
+        return self.classes[np.argmax(probs, axis=1)]
