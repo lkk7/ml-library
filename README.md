@@ -4,6 +4,9 @@ The aim is to deepen the author's understanding of these algorithms.
 Not intended to achieve outstanding performance/efficiency.  
 Generally inspired by [scikit-learn](https://github.com/scikit-learn/scikit-learn).
 
+![](https://github.com/lkk7/ml-library/blob/master/examples/lin_regr.gif)
+![](https://github.com/lkk7/ml-library/blob/master/examples/log_regr.gif)
+
 ## Included
 "..." means "to do more", "(...)" means "to update"
 - Regression
