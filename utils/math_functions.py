@@ -15,4 +15,4 @@ def gaussian(x, mean, var):
 reg_grad_dict = {'l2': (lambda a, w, l1: w * a),
                  'l1': (lambda a, w, l1: np.sign(w) * a),
                  'elastic': lambda a, w, l1: np.sign(w) * l1 * a + w * (1 - l1) * a,
-                 None: (lambda a, w, l1: w * 0)}
+                 'None': (lambda a, w, l1: w * 0)}

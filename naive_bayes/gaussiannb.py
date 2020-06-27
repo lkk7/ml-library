@@ -1,6 +1,7 @@
 import numpy as np
 from utils.math_functions import gaussian
 
+
 class GaussianNB:
     """Naive Bayes classifier that assumes"""
     def __init__(self):

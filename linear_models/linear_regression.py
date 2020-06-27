@@ -5,33 +5,37 @@ from utils.math_functions import reg_grad_dict
 
 class LinearRegression:
     """The linear regression model. Uses MSE cost function.
+    Data standardization / normalization can make this model perform better.
 
     Parameters
     ----------
-    learning_rate : float, default = 0.2
+    learning_rate : float, default = 0.1
         The learning rate for gradient descent or SGD (if it is used).
     method : str, default = 'gradient'
         Method of fitting the model.
         'gradient' for gradient descent, 'sgd' for stochastic gradient descent, 'neq' for normal equation.
-    reg : str, default = None
+    reg : str, default = 'None'
         Regularization method.
         For L1 or L2, use 'l1' or 'l2' respectively.
         For elastic net method, use 'elastic'.
-        None for no regularization.
+        'None' for no regularization.
     alpha : float, default = 0
         Alpha parameter controlling the 'strength' of regularization. Not for normal equation method.
     l1_ratio : float, default = 0
         Defines the ratio of L1 regularization. Only for elastic regularization option.
         The penalty added to cost is l1_ratio * L1 + 0.5 * (1 - l1_ratio) * L2.
+    warm_start : bool, default = False
+        Whether to reuse the previous solution as the initialization or erase it on fit() call.
     """
-    def __init__(self, learning_rate=0.2, method='gradient', reg=None, alpha=0, l1_ratio=0):
+    def __init__(self, learning_rate=0.1, method='gradient', reg='None', alpha=0, l1_ratio=0, warm_start=False):
         self.learning_rate = learning_rate
         self.coef = None
-        self.method = method
         self.method = method
         self.reg = reg
         self.alpha = alpha
         self.l1_ratio = np.clip(l1_ratio, 0, 1)
+        self.warm_start = warm_start
+        self.trained = False
 
     def fit(self, x, y, n_iter=1000):
         """Use given training data to fit the model.
@@ -45,9 +49,14 @@ class LinearRegression:
         n_iter : int, default = 1000
             Number of iterations.
         """
-        m, n = x.shape[0], x.shape[1] + 1
+        if len(x.shape) == 1:
+            m, n = x.shape[0], 2
+        else:
+            m, n = x.shape[0], x.shape[1] + 1
         x_mat = np.column_stack((np.ones((m, 1)), x))   # Insert bias terms in the first column
-        self.coef = np.zeros(n)
+        if not (self.warm_start and self.trained):
+            self.coef = np.zeros(n)
+        self.trained = True
         regularization_term = reg_grad_dict[self.reg]
         if self.method == 'gradient':
             for i in range(n_iter):

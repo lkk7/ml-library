@@ -13,18 +13,18 @@ class LogisticRegression:
     method : str, default = 'gradient'
         Method of fitting the model.
         'gradient' for gradient descent, 'sgd' for stochastic gradient descent.
-    reg : str, default = None
+    reg : str, default = 'None'
         Regularization method.
         For L1 or L2, use 'l1' or 'l2' respectively.
         For elastic net method, use 'elastic'.
-        None for no regularization.
+        'None' for no regularization.
     alpha : float, default = 0
         Alpha parameter controlling the 'strength' of regularization.
     l1_ratio : float, default = 0
         Defines the ratio of L1 regularization. Only for elastic regularization option.
         The penalty added to cost is l1_ratio * L1 + 0.5 * (1 - l1_ratio) * L2.
     """
-    def __init__(self, learning_rate=0.2, method='gradient', reg=None, alpha=0, l1_ratio=0):
+    def __init__(self, learning_rate=0.2, method='gradient', reg='None', alpha=0, l1_ratio=0):
         self.learning_rate = learning_rate
         self.coef = None
         self.intercept = None
