@@ -23,8 +23,10 @@ class LogisticRegression:
     l1_ratio : float, default = 0
         Defines the ratio of L1 regularization. Only for elastic regularization option.
         The penalty added to cost is l1_ratio * L1 + 0.5 * (1 - l1_ratio) * L2.
+    warm_start : bool, default = False
+        Whether to reuse the previous solution as the initialization or erase it on fit() call.
     """
-    def __init__(self, learning_rate=0.2, method='gradient', reg='None', alpha=0, l1_ratio=0):
+    def __init__(self, learning_rate=0.2, method='gradient', reg='None', alpha=0, l1_ratio=0, warm_start=False):
         self.learning_rate = learning_rate
         self.coef = None
         self.intercept = None
@@ -32,6 +34,8 @@ class LogisticRegression:
         self.reg = reg
         self.alpha = alpha
         self.l1_ratio = np.clip(l1_ratio, 0, 1)
+        self.warm_start = warm_start
+        self.trained = False
 
     def fit(self, x, y, n_iter=1000):
         """Use given training data to fit the model.
@@ -45,9 +49,14 @@ class LogisticRegression:
         n_iter : int, default = 1000
             Number of iterations.
         """
-        m, n = x.shape[0], x.shape[1]
-        self.coef = np.zeros(n)
-        self.intercept = 0
+        if len(x.shape) == 1:
+            m, n = x.shape[0], 1
+        else:
+            m, n = x.shape[0], x.shape[1]
+        if not (self.warm_start and self.trained):
+            self.coef = np.zeros(n)
+            self.intercept = 0
+        self.trained = True
         regularization_term = reg_grad_dict[self.reg]
         if self.method == 'gradient':
             for i in range(n_iter):
@@ -65,7 +74,7 @@ class LogisticRegression:
                 self.coef -= self.learning_rate * dw.reshape((3,))
                 self.intercept -= self.learning_rate * db
         else:
-            raise ValueError("Wrong 'method' argument. Use 'gradient', 'sgd' or 'ls'.")
+            raise ValueError("Wrong 'method' argument. Use 'gradient' or 'sgd'.")
 
     def predict_proba(self, x):
         """Predict probabilities of class '1' for given input.
