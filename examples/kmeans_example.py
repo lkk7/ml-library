@@ -16,13 +16,13 @@ ks = [2, 3, 4]
 models = []
 models_colors = []
 plots = []
-fig, ax = plt.subplots(1, 3, figsize=(7, 3))
+fig, ax = plt.subplots(1, 3, figsize=(9, 3))
 for i, k_i in enumerate(ks):
     models.append(KMeans(k=k_i, warm_start=True))
     plots.append(ax[i].scatter(*x.T, c=colors[models[i].fit_predict(x, n_iter=1)], s=15))
     ax[i].set_title('k = {}'.format(k_i), size=15)
     ax[i].tick_params(labelbottom=False, labelleft=False)
-solutions = [[colors[models[i].fit_predict(x, n_iter=1)] for i in range(3)] for j in range(30)]
+solutions = [[colors[models[i].fit_predict(x, n_iter=1)] for i in range(3)] for j in range(20)]
 
 
 def update_plot(t):
@@ -31,5 +31,5 @@ def update_plot(t):
 
 
 plt.tight_layout()
-anim = FuncAnimation(fig, update_plot, frames=len(solutions), interval=100)
+anim = FuncAnimation(fig, update_plot, frames=len(solutions), interval=200)
 plt.show()
