@@ -6,6 +6,7 @@ Generally inspired by [scikit-learn](https://github.com/scikit-learn/scikit-lear
 
 ![](https://github.com/lkk7/ml-library/blob/master/examples/lin_regr.gif)
 ![](https://github.com/lkk7/ml-library/blob/master/examples/log_regr.gif)
+![](https://github.com/lkk7/ml-library/blob/master/examples/k_means.gif)
 
 ## Included
 "..." means "to do more", "(...)" means "to update"
